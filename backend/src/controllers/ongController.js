@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const conect = require('./database/connection');
+const conect = require('../database/connection');
 
 module.exports = {
     async index(request, response) {
@@ -8,10 +8,10 @@ module.exports = {
     },
 
     async create(request, response) {
-        const { name, whatsapp, email, city, uf } = request.body;
+        const { nome, whatsapp, email, city, uf } = request.body;
         const id = crypto.randomBytes(4).toString('HEX');
 
-        await conect('ongs').insert({id,name,whatsapp,email,city,uf});
+        await conect('ongs').insert({id,nome,whatsapp,email,city,uf});
 
         return response.json({ id });
     }
