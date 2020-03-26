@@ -4,11 +4,11 @@ module.exports = {
     async index(request, response) {
         const { page = 1 } = request.query;
 
-        const [count] = await conect('incidets').count();
+        const [count] = await conect('incidents').count();
         const incidents = await conect('incidents')
-        .limit(5).offset((page - 1) * 5)
+        .select(['incidents.*', 'ongs.nome', 'ongs.email', 'ongs.whatsapp', 'ongs.city', 'ongs.uf'])
         .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
-        .select(['incidents.*', 'ongs.nome', 'ongs.email', 'ongs.whatsapp, ongs.city', 'ongs.uf']);
+        .limit(5).offset((page - 1) * 5);
 
         response.header('X-Total-Count', count['count(*)']);
         
